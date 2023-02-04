@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home page</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.0.0-alpha.1/axios.min.js"
+        integrity="sha512-xIPqqrfvUAc/Cspuj7Bq0UtHNo/5qkdyngx6Vwt+tmbvTLDszzXM0G6c91LXmGrRx8KEPulT+AfOOez+TeVylg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css">
+
+    <link rel="stylesheet" href="./style.css">
+</head>
+
+<body style="display: flex; flex-direction: column;" onload="getUserFromCookie()">
+    <h2 class="userCookie">Welcome Home</h2>
+    <br>
+    <a class="aWelcome" href="./login.html">Back to login</a>
+    <a class="aWelcome" href="./index.html">Back to register</a>
+    <a class="btnLogout" href="" onclick="handleLogoutUser()">Logout</a>
+    <br><br><br>
+
+    <div class="updateDiv">
+        <h4>Update your password</h4>
+        <br>
+        <form class="frmUpdate" onsubmit="handleUpdateUser(event)">
+            <input type="email" class="clsEmailUpdate" id="idEmailUpdate" placeholder="enter email here ..." required>
+            <br> <br>
+            <input type="password" class="clsPasswordUpdate" id="idPasswordUpdate" placeholder="enter password here ..."
+                required>
+            <i class="far fa-eye" id="togglePasswordUpdate" style="margin-left: -30px; cursor: pointer;"
+                onclick="showPassword(event)"></i>
+
+            <br> <br>
+            <input type="submit" class="btnUpdate" name="update" value="   Update User  ">
+            <a href="./login.html">Login</a>
+        </form>
+    </div>
+
+    <div class="removeDiv">
+        <h4>Remove your account by e-mail</h4>
+        <br>
+        <form class="frmRemove" onsubmit="handleRemoveUser(event)">
+            <input type="email" class="clsEmailRemove" id="idEmailRemove" placeholder="enter email here ...">
+            <br> <br>
+            <input type="password" class="clsPasswordRemove" id="idPasswordRemove"
+                placeholder="enter password here ...">
+            <i class="far fa-eye" id="togglePasswordRemove" style="margin-left: -30px; cursor: pointer;"
+                onclick="showPassword(event)"></i>
+            <br> <br>
+            <input type="submit" class="btnRemove" name="remove" value="   Remove  User ">
+
+            <a href="./index.html">Regiter</a>
+        </form>
+
+    </div>
+</body>
+<script src="./dist/app.js"></script>
+
+</html>

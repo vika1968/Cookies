@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Home Work Cookies</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.0.0-alpha.1/axios.min.js"
+    integrity="sha512-xIPqqrfvUAc/Cspuj7Bq0UtHNo/5qkdyngx6Vwt+tmbvTLDszzXM0G6c91LXmGrRx8KEPulT+AfOOez+TeVylg=="
+    crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  
+    <link href="./stylewelcome.css" rel="stylesheet">
+    <i>
+</head>
+
+<body onload="handleCheckIfUserIsConnectedOrManualReload()">
+
+    <div class="container">      
+        <h1>Hello world !!!</h1>
+        <h3>
+            Welcome to Learn HTML, the easiest way to learn HTML & CSS <br>
+            online, interactively. Learning HTML & CSS is essential<br>
+            for any web developer, ...
+        </h3>
+        <input type="button" class="btnLoginWelcome" value="Login" onclick="window.location.href = (`./login.html`)">
+        <input type="button" class="btnRegisterWelcome" value="Register"
+            onclick="window.location.href = (`./register.html`)">    
+    </div>
+</body>
+<script src="./dist/app.js"></script>
+
+</html>

@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Lesson 41</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.0.0-alpha.1/axios.min.js"
+        integrity="sha512-xIPqqrfvUAc/Cspuj7Bq0UtHNo/5qkdyngx6Vwt+tmbvTLDszzXM0G6c91LXmGrRx8KEPulT+AfOOez+TeVylg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css">
+  
+    <link rel="stylesheet" href="./style.css">
+</head>
+
+
+<body onload="handleCheckIfUserIsConnectedOrManualReload()">
+    <div class="loginDiv">
+        <h1> LOGIN</h1>
+        <br>
+        <form class="frmLogin" onsubmit ="handleLogin(event)">
+               <input type="email" class="clsEmailLogin" id="idEmailLogin" placeholder="enter email here ..." required> 
+            <br> <br> 
+            <input type="password" autocomplete="current-password" class="clsPasswordLogin" id="idPasswordLogin" placeholder="enter password here ..." required>
+            <i class="far fa-eye" id="togglePasswordLogin" style="margin-left: -30px; cursor: pointer;" onclick="showPassword(event)"></i>            
+            <br> <br>
+            <input type="submit" class="btnLogin" name="login" value="Login">   
+            <a href="./register.html">Register</a> 
+            <a href="./home.html">Remove / Update account</a>         
+        </form>     
+    </div>  
+</body>
+
+<script src="./dist/app.js"></script>
+</html>
