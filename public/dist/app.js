@@ -58,7 +58,6 @@ function handleLogin(event) {
             //@ts-ignore
             const { data } = yield axios.post("/api/v1/users/login", { email, password });
             const { success, userDB } = data;
-            sessionStorage.setItem("id", userDB._id);
             if (success) {
                 window.location.href = "./home.html";
             }
@@ -70,15 +69,13 @@ function handleLogin(event) {
         }
     });
 }
+//-------Identify user by cookie (client side)------------------
 function getUserFromCookie() {
     return __awaiter(this, void 0, void 0, function* () {
         try {
             //@ts-ignore
             const { data } = yield axios.get("/api/v1/users/get-user-by-cookie");
             const { userDB } = data;
-            console.log(userDB);
-            //@ts-ignore
-            console.log(performance.getEntriesByType("navigation")[0].type);
             const user = document.querySelector(".userCookie");
             if (userDB) {
                 user.innerText = `Welcome Home : ${userDB.email}`;
@@ -92,18 +89,16 @@ function getUserFromCookie() {
         }
     });
 }
+//-------Identify user by cookie and prevent moving to 'login' and 'register' page (client side)------------------
 function handleCheckIfUserIsConnectedOrManualReload() {
     return __awaiter(this, void 0, void 0, function* () {
         try {
             //@ts-ignore
             const { data } = yield axios.get("/api/v1/users/get-user-by-cookie");
             const { userDB } = data;
-            console.log(userDB);
-            //@ts-ignore
-            console.log(performance.getEntriesByType("navigation")[0].type);
             //@ts-ignore
             if (userDB && (performance.getEntriesByType("navigation")[0].type == "reload" || performance.getEntriesByType("navigation")[0].type == "navigate")) {
-                console.log(`The page was manually reloaded or first using `);
+                console.log(`The page was manually reloaded or first using`);
                 window.location.href = "./home.html";
                 const user = document.querySelector(".userCookie");
                 user.innerText = `Welcome Home : ${userDB.email}`;
@@ -114,13 +109,13 @@ function handleCheckIfUserIsConnectedOrManualReload() {
         }
     });
 }
+//-------Logout User (client side)------------------
 function handleLogoutUser() {
     return __awaiter(this, void 0, void 0, function* () {
         try {
             //@ts-ignore
             const { data } = yield axios.get("/api/v1/users/logout");
             const { logout } = data;
-            sessionStorage.removeItem("id");
             if (logout)
                 window.location.href = "./index.html";
         }
@@ -129,6 +124,7 @@ function handleLogoutUser() {
         }
     });
 }
+//-------Update User (client side)------------------
 function handleUpdateUser(event) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
@@ -155,6 +151,7 @@ function handleUpdateUser(event) {
         }
     });
 }
+//-------Remove User (client side)------------------
 function handleRemoveUser(event) {
     return __awaiter(this, void 0, void 0, function* () {
         try {

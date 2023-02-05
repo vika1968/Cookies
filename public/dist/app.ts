@@ -36,7 +36,7 @@ async function handleRegister(event: any) {
       throw new Error('Something went wrong.');
     }
     else {
-      window.location.href = "./home.html"
+      window.location.href = "./home.html";
     }
 
   } catch (error) {
@@ -46,7 +46,7 @@ async function handleRegister(event: any) {
 
 //-------User login (client side)------------------
 async function handleLogin(event: any) {
-  
+
   try {
     event.preventDefault();
 
@@ -56,25 +56,23 @@ async function handleLogin(event: any) {
     //@ts-ignore
     const { data } = await axios.post("/api/v1/users/login", { email, password });
     const { success, userDB } = data;
-    sessionStorage.setItem("id", userDB._id)
+
     if (success) {
-      window.location.href = "./home.html"
+      window.location.href = "./home.html";
     }
     else
-      alert("Email and Password don't match.")
+      alert("Email and Password don't match.");
   } catch (error) {
     console.error(error);
   }
 }
 
+//-------Identify user by cookie (client side)------------------
 async function getUserFromCookie() {
   try {
     //@ts-ignore
     const { data } = await axios.get("/api/v1/users/get-user-by-cookie");
     const { userDB } = data;
-    console.log(userDB);
-    //@ts-ignore
-    console.log(performance.getEntriesByType("navigation")[0].type)
 
     const user = document.querySelector(".userCookie") as HTMLHeadElement;
     if (userDB) {
@@ -89,17 +87,16 @@ async function getUserFromCookie() {
   }
 }
 
+//-------Identify user by cookie and prevent moving to 'login' and 'register' page (client side)------------------
 async function handleCheckIfUserIsConnectedOrManualReload() {
   try {
     //@ts-ignore
     const { data } = await axios.get("/api/v1/users/get-user-by-cookie");
     const { userDB } = data;
-    console.log(userDB);
-    //@ts-ignore
-    console.log(performance.getEntriesByType("navigation")[0].type)
+
     //@ts-ignore
     if (userDB && (performance.getEntriesByType("navigation")[0].type == "reload" || performance.getEntriesByType("navigation")[0].type == "navigate")) {
-      console.log(`The page was manually reloaded or first using `)
+      console.log(`The page was manually reloaded or first using`);
       window.location.href = "./home.html";
       const user = document.querySelector(".userCookie") as HTMLHeadElement;
       user.innerText = `Welcome Home : ${userDB.email}`;
@@ -110,24 +107,25 @@ async function handleCheckIfUserIsConnectedOrManualReload() {
   }
 }
 
+//-------Logout User (client side)------------------
 async function handleLogoutUser() {
   try {
     //@ts-ignore
     const { data } = await axios.get("/api/v1/users/logout");
     const { logout } = data;
-    sessionStorage.removeItem("id")
-    if (logout) window.location.href = "./index.html"
+
+    if (logout) window.location.href = "./index.html";
   } catch (error) {
     console.error(error);
   }
 }
-
+//-------Update User (client side)------------------
 async function handleUpdateUser(event: any) {
   try {
-    event.preventDefault()
+    event.preventDefault();
 
-    const email = (document.querySelector(`.clsEmailUpdate`) as HTMLInputElement).value
-    const password = (document.querySelector(`.clsPasswordUpdate`) as HTMLInputElement).value
+    const email = (document.querySelector(`.clsEmailUpdate`) as HTMLInputElement).value;
+    const password = (document.querySelector(`.clsPasswordUpdate`) as HTMLInputElement).value;
 
     if (email == ``) {
       alert(`Please, fill email field to update your password!`);
@@ -135,12 +133,12 @@ async function handleUpdateUser(event: any) {
     }
 
     //@ts-ignore      
-    const { data } = await axios.post(`/api/v1/users/update/${email}`, { password })
+    const { data } = await axios.post(`/api/v1/users/update/${email}`, { password });
     const { success, userDB } = data;
 
     if (success) {
       alert(`Password updated!`);
-      window.location.href = "./login.html"
+      window.location.href = "./login.html";
     }
     else {
       alert(`No user found!`);
@@ -151,11 +149,12 @@ async function handleUpdateUser(event: any) {
   }
 }
 
+//-------Remove User (client side)------------------
 async function handleRemoveUser(event: any) {
   try {
-    event.preventDefault()
+    event.preventDefault();
 
-    const email = (document.querySelector(`.clsEmailRemove`) as HTMLInputElement).value
+    const email = (document.querySelector(`.clsEmailRemove`) as HTMLInputElement).value;
 
     if (email == ``) {
       alert(`Please, fill email field to remove user!`);
@@ -168,7 +167,7 @@ async function handleRemoveUser(event: any) {
 
     if (success) {
       alert(`User removed!`);
-      window.location.href = "./index.html"
+      window.location.href = "./index.html";
     }
 
   } catch (error) {

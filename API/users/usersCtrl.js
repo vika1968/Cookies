@@ -60,15 +60,11 @@ function register(req, res) {
             const userDB = new userModel_1.default({ firstname: fname, lastname: lname, email: email, password: hash });
             yield userDB.save();
             const cookie = { userId: userDB._id };
-            const secret = process.env.JWT_SECRET;
-            if (!secret)
-                throw new Error("Something wrong with loading secret from .env");
             if (!userDB)
                 throw new Error("No user was created");
-            const JWTCookie = jwt_simple_1.default.encode(cookie, secret);
+            const JWTCookie = getUserIDfromToken(cookie, 'encode');
             if (userDB) {
                 res.cookie("userID", JWTCookie);
-                // res.cookie("userID", cookie);
                 res.send({ success: true, userDB: userDB });
             }
             else {
@@ -97,15 +93,9 @@ function login(req, res) {
             if (!isMatch)
                 throw new Error("Email and Password don't match");
             const cookie = { userId: userDB._id };
-            const secret = process.env.JWT_SECRET;
-            if (!secret)
-                throw new Error("Something wrong with loading secret from .env");
-            const JWTCookie = jwt_simple_1.default.encode(cookie, secret);
-            // res.cookie("userID", JWTCookie);//cookie);
-            // res.send({ success: true, userDB: userDB });
+            const JWTCookie = getUserIDfromToken(cookie, 'encode');
             if (userDB) {
                 res.cookie("userID", JWTCookie);
-                // res.cookie("userID", cookie);
                 res.send({ success: true, userDB: userDB });
             }
             else {
@@ -118,6 +108,7 @@ function login(req, res) {
     });
 }
 exports.login = login;
+//-------Identify User (server side)------------------
 function getUser(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
@@ -126,10 +117,9 @@ function getUser(req, res) {
                 throw new Error("No secret loaded from .env file");
             // console.log(req.cookies);
             const { userID } = req.cookies;
-            //console.log(userID);
             if (!userID)
                 throw new Error("Couldn't find user from cookies");
-            const decodedUserId = jwt_simple_1.default.decode(userID, secret);
+            const decodedUserId = getUserIDfromToken(userID, 'decode');
             const { userId } = decodedUserId;
             const userDB = yield userModel_1.default.findById(userId);
             if (!userDB)
@@ -142,6 +132,7 @@ function getUser(req, res) {
     });
 }
 exports.getUser = getUser;
+//-------Logout User and clear his Cookie (server side)------------------
 function logout(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
@@ -154,6 +145,7 @@ function logout(req, res) {
     });
 }
 exports.logout = logout;
+//-------Update User data by his email (server side)------------------
 function updateUserByEmail(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
@@ -163,7 +155,6 @@ function updateUserByEmail(req, res) {
                 throw new Error("Email do not match");
             const salt = bcrypt_1.default.genSaltSync(saltRounds);
             const hash = bcrypt_1.default.hashSync(req.body.password, salt);
-            //const userDB = new UserModel({ email: email, password: hash });
             const userDB = yield userModel_1.default.findByIdAndUpdate(findUser, { password: hash });
             res.send({ success: true, userDB: userDB });
         }
@@ -173,6 +164,7 @@ function updateUserByEmail(req, res) {
     });
 }
 exports.updateUserByEmail = updateUserByEmail;
+//-------Remove User by his email (server side)------------------
 function deleteUserByEmail(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
@@ -192,37 +184,20 @@ function deleteUserByEmail(req, res) {
     });
 }
 exports.deleteUserByEmail = deleteUserByEmail;
-function encodeUserID(req) {
+//-------Decode / Encode UserID from Token (JWT) (server side)------------------
+function getUserIDfromToken(cookie, action) {
     try {
+        let userIDEnd;
         const secret = process.env.JWT_SECRET;
         if (!secret)
-            throw new Error("No secret loaded from .env file");
-        // console.log(req.cookies);
-        const { userID } = req.cookies;
-        console.log(userID);
-        if (!userID)
-            throw new Error("Couldn't find user from cookies");
-        const decodedUserId = jwt_simple_1.default.decode(userID, secret);
-        // const { userId } = decodedUserId;
-        return { decodedUserId };
-    }
-    catch (error) {
-        return ({ success: false, error: error.message });
-    }
-}
-function decodeUserID(req) {
-    try {
-        const secret = process.env.JWT_SECRET;
-        if (!secret)
-            throw new Error("No secret loaded from .env file");
-        // console.log(req.cookies);
-        const { userID } = req.cookies;
-        console.log(userID);
-        if (!userID)
-            throw new Error("Couldn't find user from cookies");
-        const decodedUserId = jwt_simple_1.default.decode(userID, secret);
-        // const { userId } = decodedUserId;
-        return { decodedUserId };
+            throw new Error("Something wrong with loading secret from .env");
+        if (action == 'encode') {
+            userIDEnd = jwt_simple_1.default.encode(cookie, secret);
+        }
+        if (action == 'decode') {
+            userIDEnd = jwt_simple_1.default.decode(cookie, secret);
+        }
+        return userIDEnd;
     }
     catch (error) {
         return ({ success: false, error: error.message });
