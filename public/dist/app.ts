@@ -78,8 +78,10 @@ async function getUserFromCookie() {
     if (userDB) {
       user.innerText = `Welcome Home : ${userDB.email}`;
     }
-    else {
-      user.innerText = `Welcome Home`;
+    else {     
+      window.location.href = "./index.html";
+      alert ("Sorry, we didn't recognize you.")
+   
     }
 
   } catch (error) {

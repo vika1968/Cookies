@@ -81,7 +81,8 @@ function getUserFromCookie() {
                 user.innerText = `Welcome Home : ${userDB.email}`;
             }
             else {
-                user.innerText = `Welcome Home`;
+                window.location.href = "./index.html";
+                alert("Sorry, we didn't recognize you.");
             }
         }
         catch (error) {
